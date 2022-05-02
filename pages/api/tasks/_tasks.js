@@ -1,3 +1,5 @@
+var id = 0;
+
 export const tasks = [{
   id: 1,
   title: 'Task #1',
@@ -13,4 +15,10 @@ export const tasks = [{
   title: 'Task #3',
   complete: false,
   color: '#00ff00'
+}, {
+  id: id++,
+  title: String,
+  complete: false,
+  color:'#00ff00'
+
 }]

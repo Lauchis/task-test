@@ -1,7 +1,8 @@
 import Head from 'next/head'
 import styles from '../styles/main.module.css'
 import React, { useState, useEffect, useRef} from 'react'
-import { Task } from './pages/api/list.jsx';
+import { List } from '../pages/api/tasks/list.js';
+import { firebase } from './firebase.js';
 
 export default function Home() {
   const [tasks, setTasks] = useState([]);
@@ -22,15 +23,15 @@ export default function Home() {
     // return (tasks[i])
   }
 
-  let addTodo = (event) => {
-    // setLoading(true)
-    event.preventDefault();
-    fetch('/')
-        .then(res => res.json())
-        .then(data => {
-            loadTodos()
-        })
-}
+//   let addTodo = (event) => {
+//     // setLoading(true)
+//     event.preventDefault();
+//     fetch('/')
+//         .then(res => res.json())
+//         .then(data => {
+//             loadTodos()
+//         })
+// }
 
   useEffect(() => {
     const saveTasks = JSON.parse(localStorage.getItem('task'));
@@ -45,28 +46,28 @@ export default function Home() {
   // function noTask() {
   //   return { __html: '<div><code>Escriba la tarea :)</code></div>' };
   // }
-  function handleAddTask() {
-    if(!taskRef.current.value) {
-      // alertRef.current.innerHTML = noTask().__html;
-      console.log('no_task')
-      alert('Please, enter a task');
-      taskRef.current.focus();
-    } else {
-      // alertRef.current.innerHTML = "";
-      console.log('task succesfully');
-      tasks.push(taskRef.current.value)
-      console.log('new tasks', tasks)
-    }
-    const name = taskRef.current.value;
-    console.log(name);
-    console.log(alertRef.current.value);//undefined
-    if(name === '') return
-    setTasks(prevTasks => {
-      return [...prevTasks]
-    })
-    taskRef.current.value = null;
-    taskRef.current.focus()
-  }
+  // function handleAddTask() {
+  //   if(!taskRef.current.value) {
+  //     // alertRef.current.innerHTML = noTask().__html;
+  //     console.log('no_task')
+  //     alert('Please, enter a task');
+  //     taskRef.current.focus();
+  //   } else {
+  //     // alertRef.current.innerHTML = "";
+  //     console.log('task succesfully');
+  //     tasks.push(taskRef.current.value)
+  //     console.log('new tasks', tasks)
+  //   }
+  //   const name = taskRef.current.value;
+  //   console.log(name);
+  //   console.log(alertRef.current.value);//undefined
+  //   if(name === '') return
+  //   setTasks(prevTasks => {
+  //     return [...prevTasks]
+  //   })
+  //   taskRef.current.value = null;
+  //   taskRef.current.focus()
+  // }
   // var tasList = tasks.map(function(t){
   //   return (<li>{listTasks}</li>)
   // })
@@ -81,6 +82,7 @@ export default function Home() {
       handleAddTask()
     }
   }
+
   return (
     <div className={styles.container}>
       <Head>
@@ -97,8 +99,8 @@ export default function Home() {
           TODO LIST
         </p>
 
-        <Task />
-        <div className={styles.grid}>
+        <List />
+        {/* <div className={styles.grid}>
           <div className={styles.card}>
           <ul>
             <li>{listTasks}</li>
@@ -108,27 +110,25 @@ export default function Home() {
 
           <div className={styles.card}>
           <ul>
-            {/* <li id=''>{tasList} */}
             <div class='checkbox-wrapper'></div>
-            {/* </li> */}
             <input type="checkbox"/>
           </ul>
-          </div>
-
-          {/* <div className={styles.card}>
+          </div> */}
+{/* 
+          <div className={styles.card}>
             <input placeholder='New Todo' name='name' ref={taskRef} type="text" onKeyDown={handleEnter} autoFocus />
             <div ref={alertRef}></div>
-          </div>
-          <div className="container p-3"> */}
+          </div> */}
+          <div className="container p-3">
 
-                           <form className={styles.card} onSubmit={addTodo}>
+                           {/* <form className={styles.card} onSubmit={addTodo}>
                                <input type="text"
                                       name="todo" onChange={changeHandler}
                                       placeholder="Enter your exciting TODO item!"/>
-                           </form>
+                           </form> */}
      
 
-      <div className="dropdown m-3">
+      {/* <div className="dropdown m-3">
         <button
           className="btn btn-secondary dropdown-toggle"
           type="button"
@@ -156,21 +156,15 @@ export default function Home() {
           </li>
         </ul>
       </div>
-    </div>
-          <div className={styles.card}>
-            <select>
-              <option>Status (Pending / In Progress / Done)</option>
-              <option> Pending</option>
-              <option> In Progress</option>
-              <option> Done</option>
-            </select>
-          </div>
+      </div> */}
+     
 
-        <div style={{ padding: 100 }}>
+        {/* <div style={{ padding: 100 }}>
           <button type="primary">Button</button>
+        </div> */}
+        {/* <button onClick={handleAddTask} type='submit'>ADD</button>
+        <button>MODIFY</button> */}
         </div>
-        <button onClick={handleAddTask} type='submit'>ADD</button>
-        <button>MODIFY</button>
       </main>
     </div>
   )
