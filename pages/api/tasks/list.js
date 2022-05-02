@@ -1,7 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import { tasks } from './_tasks'
 import { FormEvent, useRef, useState } from 'react'
-import { firebase } from './firebase.js';
+import { firebase } from '../pages/firebase.js';
 
 // console.log('list.js tasks', tasks)
 
@@ -33,7 +33,7 @@ export const List = () => {
     const [id, setId] = useState(0);
     const theId = Number(id)
     const taskInput = useRef(null);
-    const [edit, setEdit] =useState(false);
+    const [edit, setEdit] = useState(false);
     // const taskRef = useRef();
 
     const handleSubmit = (e) => {
@@ -84,6 +84,42 @@ export const List = () => {
             }
         })
     }
+    const editActivate = (item) => {
+        setEdit(true);
+        setTask(item.title); // para que salga el nombre de la tarea en el formulario
+        setId(item.id);
+      }
+    
+      const editTask = async (e) => {
+        e.preventDefault();
+    
+        if (!task.trim()) {
+          console.error('no task');
+          return;
+        }
+    
+        try {
+          const db = firebase.firestore();
+          // actualizamos la tarea en firebase
+          await db.collection('tasks').doc(id).update({
+            title : tarea
+          })
+    
+          const arrayEditado = tasks.map( item => (
+            item.id === id ? {id : item.id, title : tarea} : item
+          ))
+          
+          // Actualizamdo estados
+          setTasks(arrayEditado);
+          setEdit(false);
+          setTask('');
+          setId('');
+    
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    
 
     return (
         <div>
